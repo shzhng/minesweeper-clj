@@ -9,7 +9,7 @@
 
   :min-lein-version "2.5.3"
 
-  :source-paths ["src/clj"]
+  :source-paths ["src/clj" "src/cljc"]
 
   :clean-targets ^{:protect false} ["resources/public/js/compiled" "target"
                                     "test/js"]
@@ -19,27 +19,18 @@
   :less {:source-paths ["less"]
          :target-path  "resources/public/css"}
 
-  ;; :certificates ["/usr/local/etc/openssl/certs/Palantir3rdGenerationRootCA.pem"]
-
-  ;; :jvm-opts ["-Djavax.net.ssl.trustStore=/Library/Java/JavaVirtualMachines/jdk1.8.0_121.jdk/Contents/Home/jre/lib/security/cacerts"
-  ;;            "-Djavax.net.ssl.trustStorePassword=changeit"
-  ;;            "-Djavax.net.ssl.keyStore=/Library/Java/JavaVirtualMachines/jdk1.8.0_121.jdk/Contents/Home/jre/lib/security/cacerts"
-  ;;            "-Djavax.net.ssl.keyStorePassword=changeit"]
-
-  :mirrors {#".+" {:url "https://artifactory.palantir.build/artifactory/all-jar"}}
-
   :profiles
   {:dev
    {:dependencies [[binaryage/devtools "0.9.4"]]
 
     :plugins      [[lein-figwheel "0.5.13"]
-                   [lein-doo "0.1.7"]]
-    }}
+                   [lein-doo "0.1.7"]]}}
+
 
   :cljsbuild
   {:builds
    [{:id           "dev"
-     :source-paths ["src/cljs"]
+     :source-paths ["src/cljs" "src/cljc"]
      :figwheel     {:on-jsload "minesweeper.core/mount-root"}
      :compiler     {:main                 minesweeper.core
                     :output-to            "resources/public/js/compiled/app.js"
@@ -47,11 +38,11 @@
                     :asset-path           "js/compiled/out"
                     :source-map-timestamp true
                     :preloads             [devtools.preload]
-                    :external-config      {:devtools/config {:features-to-install :all}}
-                    }}
+                    :external-config      {:devtools/config {:features-to-install :all}}}}
+
 
     {:id           "min"
-     :source-paths ["src/cljs"]
+     :source-paths ["src/cljs" "src/cljc"]
      :compiler     {:main            minesweeper.core
                     :output-to       "resources/public/js/compiled/app.js"
                     :optimizations   :advanced
@@ -59,11 +50,11 @@
                     :pretty-print    false}}
 
     {:id           "test"
-     :source-paths ["src/cljs" "test/cljs"]
+     :source-paths ["src/cljs" "src/cljc" "test/cljs"]
      :compiler     {:main          minesweeper.runner
                     :output-to     "resources/public/js/compiled/test.js"
                     :output-dir    "resources/public/js/compiled/test/out"
-                    :optimizations :none}}
-    ]}
+                    :optimizations :none}}]})
 
-  )
+
+
